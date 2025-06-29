@@ -1,10 +1,9 @@
-
-import { client } from '../lib/client'
+import { sanityClient } from '../sanityClient'
 import Image from 'next/image'
 
 async function getData() {
   const query = `*[_type == "home"][0]{title, subtitle, "heroImage": heroImage.asset->url}`
-  return await client.fetch(query)
+  return await sanityClient.fetch(query)
 }
 
 export default async function Home() {
@@ -12,7 +11,7 @@ export default async function Home() {
 
   if (!data) {
     return (
-      <main style={{ textAlign: 'center', marginTop: '2rem' }}>
+      <main className="text-center mt-20">
         <h1>Inget innehåll hittades</h1>
         <p>Publicera ett "Home"-dokument i Sanity först.</p>
       </main>
@@ -20,11 +19,9 @@ export default async function Home() {
   }
 
   return (
-    <main style={{ maxWidth: 900, margin: '2rem auto', textAlign: 'center' }}>
-      <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold' }}>{data.title}</h1>
-      <p style={{ fontSize: '1.25rem', color: '#555', marginBottom: '2rem' }}>
-        {data.subtitle}
-      </p>
+    <main className="max-w-3xl mx-auto p-4 text-center">
+      <h1 className="text-4xl font-bold mb-4">{data.title}</h1>
+      <p className="text-lg text-gray-600 mb-6">{data.subtitle}</p>
 
       {data.heroImage && (
         <Image
@@ -32,7 +29,7 @@ export default async function Home() {
           alt="Hero image"
           width={800}
           height={500}
-          style={{ margin: '0 auto', borderRadius: '10px' }}
+          className="mx-auto rounded-lg"
         />
       )}
     </main>
